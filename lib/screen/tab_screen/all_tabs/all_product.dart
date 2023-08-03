@@ -1,7 +1,6 @@
-import 'dart:convert';
-
+import 'package:api/locator.dart';
+import 'package:api/model/api.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 import '../../../constants.dart';
 import '../../../model/products.dart';
@@ -24,39 +23,51 @@ class _AllProductState extends State<AllProduct> {
     super.initState();
   }
 
-  void getData() async {
-    final url = Uri.https(api, allProduct);
-    final response = await http.get(url);
-
-    if (response.body == 'null') {
+  getData() async {
+    _allProduct = await locator.get<Api>().getData(allProduct);
+    if (_allProduct.isNotEmpty) {
+      if (!mounted) {
+        return;
+      }
       setState(() {
         isLoading = false;
       });
-      return;
     }
-
-    final List<dynamic> allData = json.decode(response.body.toString());
-    final List<Product> loadedItems = [];
-    for (final item in allData) {
-      final rating = item['rating'];
-      loadedItems.add(
-        Product(
-            id: item['id'],
-            title: item['title'],
-            price: item['price'],
-            description: item['description'],
-            category: item['category'],
-            image: item['image'],
-            rating: Rating(rate: rating['rate'], count: rating['count'])),
-      );
-    }if (!mounted) {
-      return;
-    }
-    setState(() {
-      _allProduct = loadedItems;
-      isLoading = false;
-    });
   }
+
+  // void getData() async {
+  //   final url = Uri.https(api, allProduct);
+  //   final response = await http.get(url);
+  //
+  //   if (response.body == 'null') {
+  //     setState(() {
+  //       isLoading = false;
+  //     });
+  //     return;
+  //   }
+  //
+  //   final List<dynamic> allData = json.decode(response.body.toString());
+  //   final List<Product> loadedItems = [];
+  //   for (final item in allData) {
+  //     final rating = item['rating'];
+  //     loadedItems.add(
+  //       Product(
+  //           id: item['id'],
+  //           title: item['title'],
+  //           price: item['price'],
+  //           description: item['description'],
+  //           category: item['category'],
+  //           image: item['image'],
+  //           rating: Rating(rate: rating['rate'], count: rating['count'])),
+  //     );
+  //   }if (!mounted) {
+  //     return;
+  //   }
+  //   setState(() {
+  //     _allProduct = loadedItems;
+  //     isLoading = false;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +81,10 @@ class _AllProductState extends State<AllProduct> {
               crossAxisSpacing: 0,
             ),
             children: [
-                for (final card in _allProduct) CardProduct(nProduct: card,)
+                for (final card in _allProduct)
+                  CardProduct(
+                    nProduct: card,
+                  )
               ]);
   }
 }

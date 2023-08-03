@@ -27,7 +27,7 @@ class BodyOfContainer extends StatelessWidget {
               style: Theme.of(context).textTheme.titleSmall,
             ),
           ),
-        ),
+        ), CartCounterAndFavoriteIcon(product: product,),
         AddToCart(product: product,)
       ],
     );

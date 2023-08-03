@@ -24,7 +24,7 @@ class BodyHome extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            height: size.height*.3,
+            height: size.height*.26,
             child: Swiper(
               onTap: (index) => onSelect(numb[index]),
               itemCount: pageView.length,

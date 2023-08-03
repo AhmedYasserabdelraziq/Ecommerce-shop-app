@@ -9,6 +9,7 @@ class CardView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Size size =MediaQuery.of(context).size;
     return Card(
       margin: const EdgeInsets.all(10),
       color: swipe.color,
@@ -16,7 +17,7 @@ class CardView extends StatelessWidget {
         children: [
           Expanded(
             child: Padding(
-              padding: const EdgeInsets.only(left: 8, top: 45),
+              padding: EdgeInsets.only(left: 8, top: size.height*.04),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -38,11 +39,15 @@ class CardView extends StatelessWidget {
                   const SizedBox(
                     height: 6,
                   ),
-                  Text(
-                    swipe.text.toString(),
-                    style: GoogleFonts.abyssinicaSil(
-                      textStyle: const TextStyle(
-                        fontSize: 15,
+                  SizedBox(
+                    // width: 70,
+                    // height: 50,
+                    child: Text(
+                      swipe.text.toString(),
+                      style: GoogleFonts.abyssinicaSil(
+                        textStyle: const TextStyle(
+                          fontSize: 15,
+                        ),
                       ),
                     ),
                   ),

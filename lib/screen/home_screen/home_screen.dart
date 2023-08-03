@@ -1,16 +1,15 @@
-import 'dart:convert';
-
 import 'package:api/model/products.dart';
-import 'package:api/providers/select_categories.dart';
 import 'package:api/screen/cart_screen/cart_screen.dart';
 import 'package:api/screen/tab_screen/tab_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:http/http.dart' as http;
 
 import '../../constants.dart';
+import '../../locator.dart';
+import '../../model/api.dart';
 import 'components/body_home.dart';
+import 'components/drawer.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -20,48 +19,54 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
-  late Future<List<Product>> _loadedItems;
+  Future<List<Product>>? _loadedItems;
 
   @override
   void initState() {
     getData();
     super.initState();
-    _loadedItems = getData();
   }
 
-  Future<List<Product>> getData() async {
-    final url = Uri.https(api, allProduct);
-    final response = await http.get(url);
-    if (response.statusCode >= 400) {
-      throw Exception('Failed to fetch grocery items. Please try again later.');
+  getData() async {
+    _loadedItems = locator.get<Api>().getData(allProduct);
+    if (!mounted) {
+      return;
     }
-    if (response.body == 'null') {
-      return [];
-    }
-
-    final List<dynamic> allData = json.decode(response.body);
-    final List<Product> loadedItems = [];
-    for (final item in allData) {
-      final rating = item['rating'];
-      loadedItems.add(
-        Product(
-            id: item['id'],
-            title: item['title'],
-            price: item['price'],
-            description: item['description'],
-            category: item['category'],
-            image: item['image'],
-            rating: Rating(rate: rating['rate'], count: rating['count'])),
-      );
-    }
-    return loadedItems;
   }
+
+  // Future<List<Product>> getData() async {
+  //   final url = Uri.https(api, allProduct);
+  //   final response = await http.get(url);
+  //   if (response.statusCode >= 400) {
+  //     throw Exception('Failed to fetch grocery items. Please try again later.');
+  //   }
+  //   if (response.body == 'null') {
+  //     return [];
+  //   }
+  //
+  //   final List<dynamic> allData = json.decode(response.body);
+  //   final List<Product> loadedItems = [];
+  //   for (final item in allData) {
+  //     final rating = item['rating'];
+  //     loadedItems.add(
+  //       Product(
+  //           id: item['id'],
+  //           title: item['title'],
+  //           price: item['price'],
+  //           description: item['description'],
+  //           category: item['category'],
+  //           image: item['image'],
+  //           rating: Rating(rate: rating['rate'], count: rating['count'])),
+  //     );
+  //   }
+  //   return loadedItems;
+  // }
 
   void onSelect(int identifier) {
-   // ref.read(addNum.notifier).selectNum(identifier);
+    // ref.read(addNum.notifier).selectNum(identifier);
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (_) =>  TabScreen(identifier),
+        builder: (_) => TabScreen(identifier),
       ),
     );
   }
@@ -69,7 +74,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //drawer: const Drawer(),
+      drawer: const MainDrawer(),
       appBar: AppBar(
         title: Text(
           'Shop App',

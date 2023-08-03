@@ -1,4 +1,6 @@
 import 'package:api/screen/cart_screen/cart_screen.dart';
+import 'package:api/screen/favorite_screen/favorite_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../model/products.dart';
@@ -10,10 +12,9 @@ class DetailProduct extends StatelessWidget {
 
   final Product product;
 
-
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    final size = MediaQuery.of(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -28,6 +29,18 @@ class DetailProduct extends StatelessWidget {
             onPressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
+                  builder: (_) => const FavoriteScreen(),
+                ),
+              );
+            },
+            icon: const Icon(
+              CupertinoIcons.heart_fill,
+            ),color: Colors.red,
+            iconSize: 30,
+          ),IconButton(
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
                   builder: (_) => const CartScreen(),
                 ),
               );
@@ -39,49 +52,55 @@ class DetailProduct extends StatelessWidget {
           ),
         ],
       ),
-      body: SingleChildScrollView(
+      body: SizedBox(
+        height:
+            size.size.height - AppBar().preferredSize.height - size.padding.top,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ProductTitleWithPrice(product: product),
-            Stack(clipBehavior: Clip.none, children: [
-              Container(
-                padding: EdgeInsets.only(
-                  top: size.height * .10,
-                  left: 10,
-                  right: 10,
-                ),
-                height: size.height * .59,
-                clipBehavior: Clip.none,
-                decoration: const BoxDecoration(
-                  color: Colors.blueGrey,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(25),
-                    topRight: Radius.circular(25),
+            Flexible(
+                fit: FlexFit.tight,
+                child: ProductTitleWithPrice(product: product)),
+            Flexible(
+              flex: 2,
+              child: Stack(clipBehavior: Clip.none, children: [
+                Container(
+                  padding: EdgeInsets.only(
+                    top: size.size.height * .10,
+                    left: 10,
+                    right: 10,
                   ),
-                ),
-                child: BodyOfContainer(product: product),
-              ),
-              Positioned(
-                right: 25,
-                top: -170,
-                child: ClipRRect(
-                  borderRadius: const BorderRadius.only(
-                    bottomLeft: Radius.circular(50),
-                    bottomRight: Radius.circular(50),
+                  clipBehavior: Clip.none,
+                  decoration: const BoxDecoration(
+                    color: Colors.blueGrey,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(25),
+                      topRight: Radius.circular(25),
+                    ),
                   ),
-                  child: Hero(
-                    tag: product.id,
-                    child: Image.network(
-                      product.image,
-                      width: size.width*0.5,
-                      height: size.height*.3,
-                      fit: BoxFit.fill,
+                  child: BodyOfContainer(product: product),
+                ),
+                Positioned(
+                  right: 25,
+                  top: -170,
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(50),
+                      bottomRight: Radius.circular(50),
+                    ),
+                    child: Hero(
+                      tag: product.id,
+                      child: Image.network(
+                        product.image,
+                        width: size.size.width * 0.55,
+                        height: size.size.height * .3,
+                        fit: BoxFit.fill,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ]),
+              ]),
+            ),
           ],
         ),
       ),

@@ -56,9 +56,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
       carts = loadedCart;
     });
   }
-void onSelected(int identifier){
 
-}
   @override
   Widget build(BuildContext context) {
     final listProduct = ref.watch(addList);
@@ -71,18 +69,40 @@ void onSelected(int identifier){
           .copyWith(color: Theme.of(context).colorScheme.onBackground),
     ));
     if (listProduct.isNotEmpty) {
-      content = ListView.builder(
-          itemCount: listProduct.length,
-          itemBuilder: (ctx, index) {
-            return CartDetails(
-              product: listProduct[index],
-            );
-          });
+      content = Column(
+        children: [
+          Expanded(
+            child: ListView.builder(
+                itemCount: listProduct.length,
+                itemBuilder: (ctx, index) {
+                  return CartDetails(
+                    product: listProduct[index],
+                  );
+                }),
+          ),
+          const Card(
+            elevation: 10,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                bottomRight: Radius.circular(12),
+                bottomLeft: Radius.circular(12),
+              ),
+            ),
+            child: Row(
+              children: [
+                Text('Total Amount'),
+              //Text(data)
+              ],
+            ),
+          )
+        ],
+      );
     }
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Order Details'),
-        ),
-        body: content);
+      appBar: AppBar(
+        title: const Text('Order Details'),
+      ),
+      body: content,
+    );
   }
 }

@@ -1,9 +1,11 @@
+import 'package:api/providers/add_to_list.dart';
 import 'package:api/screen/cart_screen/components/texts_detail.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../model/products.dart';
 
-class CartDetails extends StatelessWidget {
+class CartDetails extends ConsumerWidget {
   const CartDetails({
     super.key,
     required this.product,
@@ -12,7 +14,7 @@ class CartDetails extends StatelessWidget {
   final Product product;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       margin: const EdgeInsets.all(10),
       width: 150,
@@ -42,12 +44,15 @@ class CartDetails extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(right: 1.0),
             child: IconButton(
-              onPressed: () {},
+              onPressed: () {
+                ref.watch(addList.notifier).remove(product);
+              },
               icon: const Icon(
                 Icons.delete,
                 size: 40,
                 color: Colors.red,
               ),
+              color: Colors.red,
             ),
           )
         ],

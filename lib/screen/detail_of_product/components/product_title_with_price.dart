@@ -12,26 +12,24 @@ class ProductTitleWithPrice extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 8,right: 30),
-          child: Text(
-            product.title,
-            style: Theme.of(context)
-                .textTheme
-                .titleLarge!
-                .copyWith(color: Colors.black, fontSize:18),
-            overflow: TextOverflow.ellipsis,
-            softWrap: true,
-            maxLines:4,
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.only(left: 8,right: 30),
+            child: Text(
+              product.title,
+              style: Theme.of(context)
+                  .textTheme
+                  .titleLarge!
+                  .copyWith(color: Colors.black, fontSize:18),
+              overflow: TextOverflow.ellipsis,
+              softWrap: true,
+              maxLines:4,
+            ),
           ),
-        ),
-        SizedBox(
-          height:size.height*.19,
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8.0),
