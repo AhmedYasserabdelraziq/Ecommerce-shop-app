@@ -5,7 +5,7 @@ import '../../../model/products.dart';
 import 'add_to_cart.dart';
 import 'counter_and_favorite_icon.dart';
 
-class BodyOfContainer extends StatelessWidget {
+class BodyOfContainer extends StatefulWidget {
   const BodyOfContainer({
     super.key,
     required this.product,
@@ -14,21 +14,34 @@ class BodyOfContainer extends StatelessWidget {
   final Product product;
 
   @override
+  State<BodyOfContainer> createState() => _BodyOfContainerState();
+}
+
+class _BodyOfContainerState extends State<BodyOfContainer> {
+  @override
   Widget build(BuildContext context) {
-    return Column(
+    int n=0;
+
+  return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        RatingWidget(product: product),
+        RatingWidget(product: widget.product),
         const SizedBox(height: 12.0),
         Expanded(
           child: SingleChildScrollView(
             child: Text(
-              product.description,
+              widget.product.description,
               style: Theme.of(context).textTheme.titleSmall,
             ),
           ),
-        ), CartCounterAndFavoriteIcon(product: product,),
-        AddToCart(product: product,)
+        ), CartCounterAndFavoriteIcon(product: widget.product, onSelect: (int number) {
+          setState(() {
+
+          n=number;
+          print(n);
+          });
+          },),
+        AddToCart(product: widget.product, number:n,)
       ],
     );
   }

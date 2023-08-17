@@ -1,4 +1,4 @@
-import 'package:api/controller/bloc/states.dart';
+import 'package:api/controller/select_num/states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddNumber extends Cubit<CounterState> {

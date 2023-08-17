@@ -8,7 +8,10 @@ import 'components/body_of_container.dart';
 import 'components/product_title_with_price.dart';
 
 class DetailProduct extends StatelessWidget {
-  const DetailProduct({super.key, required this.product});
+  const DetailProduct({
+    super.key,
+    required this.product,
+  });
 
   final Product product;
 
@@ -35,13 +38,15 @@ class DetailProduct extends StatelessWidget {
             },
             icon: const Icon(
               CupertinoIcons.heart_fill,
-            ),color: Colors.red,
+            ),
+            color: Colors.red,
             iconSize: 30,
-          ),IconButton(
+          ),
+          IconButton(
             onPressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (_) => const CartScreen(),
+                  builder: (_) => CartScreen(),
                 ),
               );
             },
@@ -78,7 +83,10 @@ class DetailProduct extends StatelessWidget {
                       topRight: Radius.circular(25),
                     ),
                   ),
-                  child: BodyOfContainer(product: product),
+                  child: BodyOfContainer(
+                    product: product,
+
+                  ),
                 ),
                 Positioned(
                   right: 25,

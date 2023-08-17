@@ -1,19 +1,19 @@
 import 'dart:convert';
 
 import 'package:api/model/cart.dart';
-import 'package:api/providers/add_to_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 
 import '../../constants.dart';
+import '../../controller/providers/add_to_list.dart';
 import 'components/cart_details.dart';
 
 class CartScreen extends ConsumerStatefulWidget {
-  const CartScreen({
+  const CartScreen( {
     super.key,
   });
-
   @override
   ConsumerState<CartScreen> createState() => _CartScreenState();
 }
@@ -80,18 +80,35 @@ class _CartScreenState extends ConsumerState<CartScreen> {
                   );
                 }),
           ),
-          const Card(
-            elevation: 10,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                bottomRight: Radius.circular(12),
-                bottomLeft: Radius.circular(12),
-              ),
-            ),
-            child: Row(
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Total Amount'),
-              //Text(data)
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 20.0, vertical: 3),
+                  child: Text(
+                    'Total Amount : 00',
+                    style: GoogleFonts.alata(
+                      //letterSpacing: 1,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 20.0, vertical: 8),
+                  child: Text(
+                    'Total Amount : 00',
+                    style: GoogleFonts.alata(
+                      //letterSpacing: 1,
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
               ],
             ),
           )

@@ -2,6 +2,7 @@ import 'package:api/screen/cart_screen/cart_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../../widget/add_image.dart';
 import '../../../widget/widget.dart';
@@ -20,6 +21,19 @@ class MainDrawer extends StatefulWidget {
 
 class _MainDrawerState extends State<MainDrawer> {
   DocumentSnapshot<Map<String, dynamic>>? userData;
+@override
+  void initState() {
+    getDataFromFirebase();
+    super.initState();
+  }
+  void getDataFromFirebase()async{
+    final userr = FirebaseAuth.instance.currentUser!;
+    final getData =
+    await FirebaseFirestore.instance.collection('user').doc(userr.uid).get();
+    setState(() {
+      userData=getData;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,15 +46,10 @@ class _MainDrawerState extends State<MainDrawer> {
             height: 200,
             child: Row(
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 35.0, left: 35.0),
+                const Padding(
+                  padding: EdgeInsets.only(top: 35.0, left: 10.0),
                   child: InputImage(
-                    userData: (DocumentSnapshot<Map<String, dynamic>> user) {
-                      setState(() {
-                        userData = user;
-                      });
-                      print(user);
-                    },
+                    choice:ImageSource.gallery,
                   ),
                 ),
                 const SizedBox(
@@ -51,19 +60,19 @@ class _MainDrawerState extends State<MainDrawer> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      if (userData != null)
+                      userData != null?
                         Text(
                           userData!.data()!['username'],
                           style: Theme.of(context).textTheme.titleLarge,
-                        ),
-                      if (userData != null)
+                        ):const Text('Loading.....'),
+                      userData != null?
                         Text(
                           userData!.data()!['email'],
                           style: Theme.of(context)
                               .textTheme
                               .labelMedium!
                               .copyWith(color: Colors.white),
-                        )
+                        ):const Text('Loading.....'),
                     ],
                   ),
                 )

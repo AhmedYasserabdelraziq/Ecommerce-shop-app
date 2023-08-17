@@ -1,4 +1,4 @@
-import 'package:api/providers/favorite_provider.dart';
+import 'package:api/controller/providers/favorite_provider.dart';
 import 'package:api/screen/cart_screen/components/cart_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

@@ -60,7 +60,7 @@ class CardView extends StatelessWidget {
               borderRadius: const BorderRadius.only(
                   topRight: Radius.circular(12),
                   bottomRight: Radius.circular(12)),
-              child: Image.network(
+              child: Image.asset(
                 swipe.image,
                 height: double.infinity,
                 fit: BoxFit.fill,

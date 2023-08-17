@@ -1,5 +1,5 @@
 import 'package:api/model/products.dart';
-import 'package:api/providers/favorite_provider.dart';
+import 'package:api/controller/providers/favorite_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';

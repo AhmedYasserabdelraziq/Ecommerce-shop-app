@@ -4,9 +4,12 @@ import 'package:api/screen/login/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'controller/observing_cubit.dart';
 import 'firebase_options.dart';
 
 var kColorScheme = ColorScheme.fromSeed(
@@ -23,13 +26,14 @@ final darkTheme = ThemeData.dark().copyWith(
   colorScheme: kDarkColorScheme,
   cardTheme: const CardTheme().copyWith(
     color: kDarkColorScheme.onBackground,
-
-  ), elevatedButtonTheme: ElevatedButtonThemeData(
-  style: ElevatedButton.styleFrom(
-    backgroundColor: kDarkColorScheme.primaryContainer,
-    foregroundColor: kDarkColorScheme.onPrimaryContainer,
   ),
-),);
+  elevatedButtonTheme: ElevatedButtonThemeData(
+    style: ElevatedButton.styleFrom(
+      backgroundColor: kDarkColorScheme.primaryContainer,
+      foregroundColor: kDarkColorScheme.onPrimaryContainer,
+    ),
+  ),
+);
 final theme = ThemeData().copyWith(
   useMaterial3: true,
   scaffoldBackgroundColor: kColorScheme.background,
@@ -56,7 +60,12 @@ final theme = ThemeData().copyWith(
 );
 
 void main() async {
+  Bloc.observer = MyBlocObserver();
   WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitUp,
+  ]);
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -69,19 +78,23 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // return MultiBlocProvider(
+      // providers: [
+      //   BlocProvider(create: (context) => AuthCubit()),
+      // ],
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      darkTheme:darkTheme,
-      theme: theme,
-      home: StreamBuilder(
-          stream: FirebaseAuth.instance.authStateChanges(),
-          builder: (ctx, snapshot) {
-            if (snapshot.hasData) {
-              return const HomeScreen();
-            }
-            return const LoginScreen();
-          }),
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Demo',
+        darkTheme: darkTheme,
+        theme: theme,
+        home: StreamBuilder(
+            stream: FirebaseAuth.instance.authStateChanges(),
+            builder: (ctx, snapshot) {
+              if (snapshot.hasData) {
+                return const HomeScreen();
+              }
+              return const LoginScreen();
+            }),
     );
   }
 }

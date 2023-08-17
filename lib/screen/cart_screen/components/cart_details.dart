@@ -1,8 +1,8 @@
-import 'package:api/providers/add_to_list.dart';
 import 'package:api/screen/cart_screen/components/texts_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../controller/providers/add_to_list.dart';
 import '../../../model/products.dart';
 
 class CartDetails extends ConsumerWidget {
