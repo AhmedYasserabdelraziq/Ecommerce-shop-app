@@ -1,4 +1,4 @@
-import 'package:api/bloc/states.dart';
+import 'package:api/controller/bloc/states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AddNumber extends Cubit<CounterState> {
@@ -6,8 +6,11 @@ class AddNumber extends Cubit<CounterState> {
 
   static AddNumber get(context) => BlocProvider.of(context);
 
-  int number = 1;
+  int number=0;
 
+ setNumber(int num){
+  num=number;
+}
   void minus() {
     number--;
     emit(CounterMinusState(number));
